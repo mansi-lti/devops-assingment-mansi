@@ -35,5 +35,22 @@ Git Repo -> Clone -> Upload -> S3
   ``` bash
   aws configure
   ```
+# 4. CI/CD Shell Script
+## flow:
+Build -> Test -> SonarQube -> Docker -> Push -> Deploy
+- Created a shell script to implement CI/CD pipeline without Jekins
+- Used Maven for build and testing
+- Integrated SonarQube for code analysis
+- Built Docker image and pushed to registry
+- Deployed application to kubernetes usin kubectl
+- Demonstrates end-to-end CI/CD automation using CLI
+## Steps To Run:
+- Make the script executable
+  ``` bash
+  chmod +x full-ci-cd.sh
+  ```
+- Ensure required tools are installed (Maven , Docker , Kubectl)
+- Note:-
+This script assumes required tools like Maven , Docker , and kubectl are pre-installed and configured in the environment
 
 
