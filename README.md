@@ -71,5 +71,15 @@ This script assumes required tools like Maven , Docker , and kubectl are pre-ins
     ``` bash
     ./sonar-dynamic-token.sh
     ```
+# 6. Github Actions Pipeline
+## Flow:
+Source Code -> Build -> Test -> SonarQube -> Docker -> Push
+
+- Implemented CI/CD pipeline using Github Actions
+- Built and tested application using Maven
+- Integrated SonarQube using GitHub Secrets
+- Built Docker image and pushed to registry
+- Demonstrates automation using GitHub Actions workflow
+- Note :- Secrets like SonarQube token are managed securely using GitHub Secrets
 
 
