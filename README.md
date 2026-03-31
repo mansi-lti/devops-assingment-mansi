@@ -82,4 +82,18 @@ Source Code -> Build -> Test -> SonarQube -> Docker -> Push
 - Demonstrates automation using GitHub Actions workflow
 - Note :- Secrets like SonarQube token are managed securely using GitHub Secrets
 
+# 7 Terraform AWS Infrastructure
+## Flow:-
+VPC -> EC2(ASG) -> Load Balancer -> Security -> Deployment
+- Created Terraform configuration for AWS infrastructure
+- Implemented VPC across multiple availability zones
+- Used Auto Scaling Group  with EC2 instances behind a load balancer
+- Configured security groups for HTTP and SSH access
+- Installed NGINX on EC2 instances using provisioner
+- Used S3 backend with DynamoDB for remote state management
+- Fetched AMI dynamically using data source
+- Configured instance thpe based on environment (dev/prod)
+- Output includes load balancer DNS
+
+
 
