@@ -53,4 +53,23 @@ Build -> Test -> SonarQube -> Docker -> Push -> Deploy
 - Note:-
 This script assumes required tools like Maven , Docker , and kubectl are pre-installed and configured in the environment
 
+# 5. SonarQube Scan with Token
+- Implemented SoanrQube scan using authentication token instead of username/password
+- Token is passed securely using environement variable (SONAR_TOKEN)
+- Added validation to ensure token is available before execution
+- Demonstrate secure and controlled access for SonarQube analysis
+## Steps to Run:
+- Make the script executable
+  ``` bash
+  chmod +x sonar-dynamic-token.sh
+  ```
+- Export the SonarQube token:
+    ``` bash
+    export SONAR_TOKEN=your-token
+    ```
+- Run the script
+    ``` bash
+    ./sonar-dynamic-token.sh
+    ```
+
 
