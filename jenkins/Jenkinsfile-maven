@@ -1,0 +1,72 @@
+pipeline{
+  agent any
+  tools{
+    maven 'Maven3'
+    jdk 'JDK17'
+  }
+  environment{
+    IMAGE_NAME = "myapp"
+    REGISTRY = "jfrog.io/myrepo"
+  }
+  stages{
+    stage('Checkout Code'){
+      steps{
+        git 'sample java repo link'
+      }
+    }
+    stage('Build'){
+      steps{
+        sh 'mvn clean compile'
+      }
+    }
+    stage('Unit Testing'){
+      steps{
+        sh 'mvn test'
+      }
+    }
+    stage('Functional Testing'){
+      steps{
+        sh 'mvn verify'
+      }
+    }
+    stage('SonarQube Scan'){
+      steps{
+        withSonarQubeEnv('SonarQube'){
+          sh 'mvn sonar:sonar'
+        }
+      }
+    }
+    stage('Upload to Nexus'){
+      steps{
+        echo "Uploading artifact to Nexus (mvn deploy can be used)"
+      }
+    }
+    stage('Docker Build'){
+      steps{
+        sh 'docker build -t $IMAGE_NAME .'
+      }
+    }
+    stage('Push to JFrog'){
+      steps{
+        echo "Tagging and pushing image to JFrog"
+        sh '''
+        docker tag $IMAGE_NAME $REGISTRY/$IMAGE_NAME:latest
+        docker push $REGISTRY/$IMAGE_NAME:latest
+        '''
+      }
+    }
+    stage('Deploy Using Argo CD'){
+      steps{
+        echo "Deployemnt will be trigged using Argo CD"
+      }
+    }
+  }
+  post{
+    success{
+      echo "Build completed successfully"
+    }
+    failure{
+      echo "Build Failed"
+    }
+  }
+}
