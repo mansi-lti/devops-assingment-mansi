@@ -1,1 +1,79 @@
+pipeline{
+  agent any
 
+  environment{
+    IMAGE_NAME = "python-app"
+    REGISTRY = "jfrog.io/myrepo"
+  }
+  stages{
+    stage('Checkout Code'){
+      steps{
+        git '(sample python code repo link)'
+      }
+    }
+    stage('Install Dependencies'){
+      steps{
+        sh 'pip install -r requirememts.txt'
+  }
+}
+    stage('Build Package'){
+      steps{
+        sh 'python setup.py sdist bdist_wheel'
+      }
+    }
+    stage('Unit Testing'){
+      steps{
+        sh 'pytest'
+      }
+    }
+    stage('Functional Testing'){
+      steps{
+        echo 'Running functional tests (placeholder)'
+      }
+    }
+    stage('Performance Testing'){
+      steps{
+        echo 'Running performance tests (placeholder)'
+      }
+    }
+    stage('SonarQube Scan'){
+      steps{
+        withSonarQubeEnv('SonarQube'){
+          sh 'mvn sonar-scanner'
+        }
+      }
+    }
+    stage('Upload to Nexus'){
+      steps{
+        echo "Uploading artifact to Nexus (simulated)"
+      }
+    }
+    stage('Docker Build'){
+      steps{
+        sh 'docker build -t $IMAGE_NAME .'
+      }
+    }
+    stage('Push to JFrog'){
+      steps{
+        echo "Tagging and pushing image to JFrog"
+        sh '''
+        docker tag $IMAGE_NAME $REGISTRY/$IMAGE_NAME:latest
+        docker push $REGISTRY/$IMAGE_NAME:latest
+        '''
+      }
+    }
+    stage('Deploy Using Argo CD'){
+      steps{
+        echo "Deployemnt will be trigged using Argo CD"
+      }
+    }
+  }
+  post{
+    success{
+      echo "Pipeline executed successfully"
+    }
+    failure{
+      echo "Pipeline Failed"
+    }
+  }
+}
